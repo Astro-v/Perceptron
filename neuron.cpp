@@ -9,6 +9,7 @@
 /**
  * @include External header
 */
+#include <type_traits>
 
 /**
  * @include Internal header

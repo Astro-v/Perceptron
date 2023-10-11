@@ -9,8 +9,10 @@
 /**
  * \brief Concept
 */
-template <typename T>
-concept iterable = requires (T x) { for (auto e: x) e; };
+template <typename Func, typename... Args>
+concept CallableOnIterable = requires(Func func, Args... args) {
+    { func({args...}, {args...}) } -> std::same_as<void>;
+};
 
 /**
  * @class Neuron
@@ -21,6 +23,7 @@ class Neuron
 private:
     /* data */
 public:
-    Neuron(auto (&fcomp)(iterable auto&));
+    template <CallableOnIterable T>
+    Neuron(T);
     ~Neuron();
 };
