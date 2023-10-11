@@ -12,8 +12,8 @@
 /**
  * \brief typedef
 */
-typedef double (&ActivationFct)(const double&);
 typedef double (&NetInputFct)(std::vector<std::shared_ptr<double>>, const std::vector<double>);
+typedef double (&ActivationFct)(const double&);
 
 /**
  * @class Neuron
@@ -22,15 +22,39 @@ typedef double (&NetInputFct)(std::vector<std::shared_ptr<double>>, const std::v
 class Neuron
 {
 private:
-    ActivationFct activationFct_;
     NetInputFct netInputFct_;
+    ActivationFct activationFct_;
     std::shared_ptr<double> output_;
     std::vector<std::shared_ptr<double>> input_;
     std::vector<double> weight_;
+    size_t inputNbr_;
 
 public:
-    Neuron(NetInputFct, ActivationFct);
+    /**
+     * @name Neuron
+     * @brief Constructor for the Neuron class
+     * @param netImputFct Net input function for the neuron
+     * @param activationFct Activation fonction for the neuron
+     * @param weight Weight for the bias entry
+     * @return No return
+    */
+    Neuron(NetInputFct netInputFct, ActivationFct activationFct, const double& weight = 0);
+
+    
+    /**
+     * @name ~Neuron
+     * @brief Destructor for the Neuron class
+     * @return No return
+    */
     ~Neuron();
+
+    void run();
+
+    void add(std::shared_ptr<double> input, const double& weight = 1);
+    void setWeight(const size_t& index, const double& weight);
+    void setBias(const double& weight);
+    std::shared_ptr<double> getOutput();
+    size_t getInputNbr() const;
 };
 
 

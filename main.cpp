@@ -9,10 +9,14 @@
 /**
  * @include External header
 */
+#include <concepts>
+#include <memory>
+#include <vector>
 
 /**
  * @include Internal header
 */
+#include "neuron.hpp"
 
 /**
  * @name main

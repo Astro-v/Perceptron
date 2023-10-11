@@ -1,1 +1,5 @@
-*.json
+# Files in the .vscode repository
+.vscode/*
+
+# Files in the build repository
+build/*
