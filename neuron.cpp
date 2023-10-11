@@ -32,12 +32,12 @@ activationFct_(activationFct)
 
 Neuron::~Neuron()
 {
-    *output_ = (netInputFct_(input_, weight_));
+    
 }
 
 void Neuron::run()
 {
-
+    *output_ = activationFct_(netInputFct_(input_, weight_)); 
 }
 
 void Neuron::add(std::shared_ptr<double> input, const double& weight)
