@@ -6,13 +6,14 @@
  * @note For naming rules follow https://manual.gromacs.org/5.1.1/dev-manual/naming.html
  */
 
+#ifndef NEURON_HPP
+#define NEURON_HPP
+
 /**
- * \brief Concept
+ * \brief typedef
 */
-template <typename Func, typename... Args>
-concept CallableOnIterable = requires(Func func, Args... args) {
-    { func({args...}, {args...}) } -> std::same_as<void>;
-};
+typedef double (&ActivationFct)(const double&);
+typedef double (&NetInputFct)(std::vector<std::shared_ptr<double>>, const std::vector<double>);
 
 /**
  * @class Neuron
@@ -21,9 +22,16 @@ concept CallableOnIterable = requires(Func func, Args... args) {
 class Neuron
 {
 private:
-    /* data */
+    ActivationFct activationFct_;
+    NetInputFct netInputFct_;
+    std::shared_ptr<double> output_;
+    std::vector<std::shared_ptr<double>> input_;
+    std::vector<double> weight_;
+
 public:
-    template <CallableOnIterable T>
-    Neuron(T);
+    Neuron(NetInputFct, ActivationFct);
     ~Neuron();
 };
+
+
+#endif // NEURON_HPP
