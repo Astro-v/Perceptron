@@ -13,8 +13,7 @@
  * @name weightedSum
  * @brief Function that compute the weighted sum of input
  * @param input Input list
- * @param weight Weight list
- * The last element is the bias weight associate with the -1 entry
+ * @param weight Weight list - The last element is the bias weight associate with the -1 entry
  * @return Return the weighted sum
 */
 double weightedSum(std::vector<std::shared_ptr<double>> input, const std::vector<double> weight)
@@ -30,6 +29,17 @@ double weightedSum(std::vector<std::shared_ptr<double>> input, const std::vector
     }
     result -= *itWeight;
     return result;
+}
+
+/**
+ * @name Sigmoid
+ * @brief Sigmoid function
+ * @param x Input variable of the function
+ * @return Return value of Sigmoid(x)
+*/
+double sigmoid(const double& x)
+{
+    return 1 / (1 + exp(-x));
 }
 
 #endif // RESOURCE_HPP

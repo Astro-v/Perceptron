@@ -13,6 +13,7 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 /**
  * @include Internal header
@@ -32,13 +33,17 @@ int main()
     input.push_back(std::make_shared<double>(2));
     input.push_back(std::make_shared<double>(3));
 
-    std::vector<double> weight;
-    weight.push_back(1);
-    weight.push_back(2);
-    weight.push_back(3);
-    weight.push_back(-1);
+    Neuron neuron(weightedSum, sigmoid, 0);
 
-    std::cout << weightedSum(input, weight) << std::endl;
+    neuron.add(input[0], 0);
+    neuron.add(input[1], 0);
+    neuron.add(input[2], 0);
+
+    neuron.run();
+
+    std::cout << *neuron.getOutput() << std::endl;
+
+    
 
     return 0;
 }
