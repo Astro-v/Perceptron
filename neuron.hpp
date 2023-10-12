@@ -39,7 +39,6 @@ public:
      * @return No return
     */
     Neuron(NetInputFct netInputFct, ActivationFct activationFct, const double& weight = 0);
-
     
     /**
      * @name ~Neuron
@@ -48,12 +47,51 @@ public:
     */
     ~Neuron();
 
+    /**
+     * @name run
+     * @brief Function that update the output value according to the inputs
+     * @return No return
+    */
     void run();
 
+    /**
+     * @name add
+     * @brief Function that add a new input to the neuron
+     * @param input Pointer over the input
+     * @param weight Weight refering to the added input (default -1)
+     * @return No return
+    */
     void add(std::shared_ptr<double> input, const double& weight = 1);
+
+    /**
+     * @name setWeight
+     * @brief Accessor to set the weight
+     * @param index Index of the relied input
+     * @param weight Weight value
+     * @return No return
+    */
     void setWeight(const size_t& index, const double& weight);
+
+    /**
+     * @name setBias
+     * @brief Accessor to set the bias weight
+     * @param weight Weight value
+     * @return No return
+    */
     void setBias(const double& weight);
+
+    /**
+     * @name getOutput
+     * @brief Accessor to get the output of the neuron
+     * @return Pointer over the output value
+    */
     std::shared_ptr<double> getOutput();
+
+    /**
+     * @name getInputNbr
+     * @brief Accessor to get the number of input for the neuron
+     * @return The number of added input to the neuron
+    */
     size_t getInputNbr() const;
 };
 
