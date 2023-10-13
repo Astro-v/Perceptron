@@ -20,6 +20,7 @@
 */
 #include "resource.hpp"
 #include "neuron.hpp"
+#include "perceptron.hpp"
 
 /**
  * @name main
