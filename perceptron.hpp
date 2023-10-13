@@ -49,6 +49,15 @@ public:
     ~Perceptron();
 
     /**
+     * @name insertLayer
+     * @brief Insert a layer with nbNeuron neuron
+     * @param nbNeuron Number of Neurons to add to the layer (defautl 1)
+     * @param index Index for the insertion (default = -1 mean added at the end before the output layer)
+     * @return No return
+    */
+    void insertLayer(const int& nbNeuron = 1,const int& index = -1);
+
+    /**
      * @name setInput
      * @brief Update all output according to the new input list
      * @param input New input list
