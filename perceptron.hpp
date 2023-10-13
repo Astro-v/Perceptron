@@ -15,12 +15,11 @@ typedef std::vector<Neuron> Layer;
  * @class Perceptron
  * @brief Perceptron class as several layer of Neurons
 */
+template<size_t in, size_t out>
 class Perceptron
 {
 private:
     size_t nbLayer_;
-    size_t nbInput_;
-    size_t nbOutout_;
     std::vector<size_t> layerList_;
     std::vector<std::shared_ptr<double>> inputList_;   
     std::vector<std::shared_ptr<double>> outputList_;   
@@ -29,10 +28,18 @@ private:
 public:
     /**
      * @name Perceptron
-     * @brief Constructor for the Perceptron class
+     * @brief Default constructor for the Perceptron class
      * @return No return
     */
-    Perceptron(size_t nbInput, std::vector<size_t> layerList);
+    Perceptron();
+
+    /**
+     * @name Perceptron
+     * @brief Constructor for the Perceptron class
+     * @param layerList List of size for each layer
+     * @return No return
+    */
+    Perceptron(std::vector<size_t> layerList);
 
     /**
      * @name ~Neuron

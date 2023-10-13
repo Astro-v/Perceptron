@@ -21,9 +21,15 @@
 #include "neuron.hpp"
 #include "perceptron.hpp"
 
-Perceptron::Perceptron(size_t nbInput, std::vector<size_t> layerList):
+template<size_t in, size_t out>
+Perceptron<in, out>::Perceptron()
+{
+    
+}
+
+template<size_t in, size_t out>
+Perceptron<in, out>::Perceptron(std::vector<size_t> layerList):
 nbLayer_(layerList.size()),
-nbInput_(nbInput)
 {
 
     if (nbLayer_ <= 0 || nbInput <= 0)
@@ -32,7 +38,7 @@ nbInput_(nbInput)
     }
 
     // Allocation for the entry list
-    for (int index {0}; index < nbInput_; ++index)
+    for (int index {0}; index < in; ++index)
     {
         inputList_.push_back(std::make_shared<double>(0));
     }
@@ -46,12 +52,17 @@ nbInput_(nbInput)
         {
             neuronList_.back().emplace_back(weightedSum, sigmoid, 0);
         }
+
+        for (int index {0}; index < layerSize; ++index)
+        {
+            neuronList_.back().emplace_back(weightedSum, sigmoid, 0);
+        }
     }
 
     // Creation of link between input and output
     for (int index1 {0}; index1 < layerList_[0]; ++index1)
     {
-        for (int index2 {0}; index2 < nbInput_; ++index2)
+        for (int index2 {0}; index2 < in; ++index2)
         {
             neuronList_[0][index1].add(inputList_[index2], 1);
         }
@@ -68,31 +79,39 @@ nbInput_(nbInput)
         }
     }
 
+    for (int index1 {0}; index1 < layerList_[0]; ++index1)
+    {
+        for (int index2 {0}; index2 < in; ++index2)
+        {
+            neuronList_[0][index1].add(inputList_[index2], 1);
+        }
+    }
+
     // Allocation for the output list
     for (int index {0}; index < layerList.back(); ++index)
     {
         outputList_.push_back(neuronList_.back().at(index).getOutput());
     }
 
-    nbOutout_ = outputList_.size();
-
     this->run();
 }
 
-Perceptron::~Perceptron()
+template<size_t in, size_t out>
+Perceptron<in, out>::~Perceptron()
 {
 
 }
 
-void Perceptron::setInput(const std::vector<double>& input)
+template<size_t in, size_t out>
+void Perceptron<in, out>::setInput(const std::vector<double>& input)
 {
-    if (input.size() != nbInput_)
+    if (input.size() != in)
     {
         throw;
     }
 
     // Set the inputs
-    for (int index {0}; index < nbInput_; ++index)
+    for (int index {0}; index < in; ++index)
     {
         *(inputList_[index]) = input[index];
     } 
@@ -101,9 +120,10 @@ void Perceptron::setInput(const std::vector<double>& input)
     this->run();
 }
 
-double Perceptron::getOutput(const int& index)
+template<size_t in, size_t out>
+double Perceptron<in, out>::getOutput(const int& index)
 {
-    if (index < 0 || index >= nbOutout_)
+    if (index < 0 || index >= out)
     {
         throw;
     }
@@ -111,7 +131,8 @@ double Perceptron::getOutput(const int& index)
     return *outputList_[index];
 }
 
-void Perceptron::run()
+template<size_t in, size_t out>
+void Perceptron<in, out>::run()
 {
     // Update all neurons output
     for (int index1 {0}; index1 < nbLayer_; ++index1)
