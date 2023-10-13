@@ -9,6 +9,8 @@
 #ifndef PERCEPTRON_HPP
 #define PERCEPTRON_HPP
 
+typedef std::vector<Neuron> Layer;
+
 /**
  * @class Perceptron
  * @brief Perceptron class as several layer of Neurons
@@ -16,8 +18,13 @@
 class Perceptron
 {
 private:
+    size_t nbLayer_;
     size_t nbInput_;
-    std::vector<size_t> layerList_;   
+    size_t nbOutout_;
+    std::vector<size_t> layerList_;
+    std::vector<std::shared_ptr<double>> inputList_;   
+    std::vector<std::shared_ptr<double>> outputList_;   
+    std::vector<Layer> neuronList_;   
 
 public:
     /**
@@ -34,6 +41,29 @@ public:
     */
     ~Perceptron();
 
+    /**
+     * @name setInput
+     * @brief Update all output according to the new input list
+     * @param input New input list
+     * @return No return
+    */
+    void setInput(const std::vector<double>& input);
+
+    /**
+     * @name getOutput
+     * @brief Return a specific output
+     * @param index Index of the returned output
+     * @return Return the output associated to the index
+    */
+    double getOutput(const int& index);
+
+protected:
+    /**
+     * @name run
+     * @brief Update all output of each neurons starting from the upper layer
+     * @return No return
+    */
+    void run();
 };
 
 #endif // PERCEPTRON_HPP
