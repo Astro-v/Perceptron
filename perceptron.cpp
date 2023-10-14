@@ -103,6 +103,47 @@ Perceptron<in, out>::~Perceptron()
 }
 
 template<size_t in, size_t out>
+void Perceptron<in, out>::insertLayer(const size_t& nbNeuron = 1,const int& index = -1)
+{
+    int localIndex {0};
+    if (index >= 0 && index < nbLayer_)
+    {
+        localIndex = index;
+    }
+    else
+    {
+        localIndex = nbLayer_ - 1;
+    }
+
+    auto itNeuronList = neuronList_.begin();
+    auto itLayerList = layerList_.begin();
+    for (int index {0}; index < localIndex; ++index)
+    {
+        ++itNeuronList;
+        ++itLayerList;
+    }
+    neuronList_.emplace(itNeuronList);
+    layerList_.insert(itLayerList, nbNeuron);
+    --itLayerList;
+    for (int index {0}; index < *itLayerList)
+
+    for (const auto& layerSize : layerList)
+    {
+        layerList_.push_back(layerSize);
+        neuronList_.emplace_back();
+        for (int index {0}; index < layerSize; ++index)
+        {
+            neuronList_.back().emplace_back(weightedSum, sigmoid, 0);
+        }
+
+        for (int index {0}; index < layerSize; ++index)
+        {
+            neuronList_.back().emplace_back(weightedSum, sigmoid, 0);
+        }
+    }
+}
+
+template<size_t in, size_t out>
 void Perceptron<in, out>::setInput(const std::vector<double>& input)
 {
     if (input.size() != in)
