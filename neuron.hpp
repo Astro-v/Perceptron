@@ -62,6 +62,13 @@ public:
      * @return No return
     */
     void add(std::shared_ptr<double> input, const double& weight = 1);
+    
+    /**
+     * @name clear
+     * @brief Function that clear all added input
+     * @return No return
+    */
+    void clear();
 
     /**
      * @name setWeight

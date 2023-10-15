@@ -47,6 +47,13 @@ void Neuron::add(std::shared_ptr<double> input, const double& weight)
     ++inputNbr_;
 }
 
+void Neuron::clear()
+{
+    input_.clear();
+    weight_.erase(weight_.begin(), weight_.end() - 1);
+    inputNbr_ = 1;
+}
+
 void Neuron::setWeight(const size_t& index, const double& weight)
 {
     if (index >= 0 && index < inputNbr_)

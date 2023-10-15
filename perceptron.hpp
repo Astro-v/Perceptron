@@ -15,7 +15,7 @@ typedef std::vector<Neuron> Layer;
  * @class Perceptron
  * @brief Perceptron class as several layer of Neurons
 */
-template<size_t in, size_t out>
+template <size_t in, size_t out>
 class Perceptron
 {
 private:
@@ -23,7 +23,7 @@ private:
     std::vector<size_t> layerList_;
     std::vector<std::shared_ptr<double>> inputList_;   
     std::vector<std::shared_ptr<double>> outputList_;   
-    std::vector<Layer> neuronList_;   
+    std::vector<Layer> neuronList_;
 
 public:
     /**
@@ -55,7 +55,7 @@ public:
      * @param index Index for the insertion (default = -1 mean added at the end before the output layer)
      * @return No return
     */
-    void insertLayer(const int& nbNeuron = 1,const int& index = -1);
+    void insertLayer(const size_t& nbNeuron = 1,const int& index = -1);
 
     /**
      * @name setInput

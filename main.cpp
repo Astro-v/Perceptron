@@ -22,6 +22,8 @@
 #include "neuron.hpp"
 #include "perceptron.hpp"
 
+typedef Perceptron<1ul, 1ul> Percep;
+
 /**
  * @name main
  * @brief Main function of the program
@@ -29,12 +31,8 @@
 */
 int main()
 {
-    std::vector<size_t> layer;
-    layer.push_back(1uz);
 
-    Perceptron percep(1uz, layer);
-
-    std::cout << percep.getOutput(0) << std::endl;
+    std::cout << 1 << std::endl;
 
     return 0;
 }
