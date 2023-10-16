@@ -62,6 +62,13 @@ public:
      * @return No return
     */
     void add(std::shared_ptr<double> input, const double& weight = 1);
+    
+    /**
+     * @name clear
+     * @brief Function that clear all added input
+     * @return No return
+    */
+    void clear();
 
     /**
      * @name setWeight
@@ -86,6 +93,13 @@ public:
      * @return Pointer over the output value
     */
     std::shared_ptr<double> getOutput();
+
+    /**
+     * @name getOutputValue
+     * @brief Accessor to get the output value of the neuron
+     * @return Copy of the output value
+    */
+    double getOutputValue() const;
 
     /**
      * @name getInputNbr

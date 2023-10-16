@@ -20,6 +20,7 @@
 */
 #include "resource.hpp"
 #include "neuron.hpp"
+#include "perceptron.hpp"
 
 /**
  * @name main
@@ -28,23 +29,10 @@
 */
 int main()
 {
-    std::vector<std::shared_ptr<double>> input;
-    input.push_back(std::make_shared<double>(1));
-    input.push_back(std::make_shared<double>(2));
-    input.push_back(std::make_shared<double>(3));
-
-    Neuron neuron(weightedSum, sigmoid, 0);
-
-    neuron.add(input[0], 0);
-    neuron.add(input[1], 0);
-    neuron.add(input[2], 0);
-
-    neuron.run();
-
-    std::cout << *neuron.getOutput() << std::endl;
-
-    
-
+    Perceptron<1ul, 1ul> percep;
+    percep.insertLayer(2);
+    std::cout << percep.getOutput(0) << std::endl;
+    percep.print();
     return 0;
 }
 
