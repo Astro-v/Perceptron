@@ -3,3 +3,6 @@
 
 # Files in the build repository
 build/*
+
+# Files in the bin repository
+bin/*

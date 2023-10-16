@@ -22,8 +22,6 @@
 #include "neuron.hpp"
 #include "perceptron.hpp"
 
-typedef Perceptron<1ul, 1ul> Percep;
-
 /**
  * @name main
  * @brief Main function of the program
@@ -31,7 +29,10 @@ typedef Perceptron<1ul, 1ul> Percep;
 */
 int main()
 {
-    Percep percep;
+    Perceptron<1ul, 1ul> percep;
+    percep.insertLayer(10);
+    percep.insertLayer(10);
+    percep.insertLayer(10);
     std::cout << percep.getOutput(0) << std::endl;
 
     return 0;
