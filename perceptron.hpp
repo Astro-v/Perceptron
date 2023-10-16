@@ -34,14 +34,6 @@ public:
     Perceptron();
 
     /**
-     * @name Perceptron
-     * @brief Constructor for the Perceptron class
-     * @param layerList List of size for each layer
-     * @return No return
-    */
-    Perceptron(std::vector<size_t> layerList);
-
-    /**
      * @name ~Neuron
      * @brief Destructor for the Neuron class
      * @return No return

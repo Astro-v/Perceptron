@@ -61,64 +61,6 @@ Perceptron<in, out>::Perceptron()
 }
 
 template <size_t in, size_t out>
-Perceptron<in, out>::Perceptron(std::vector<size_t> layerList):
-nbLayer_(layerList.size())
-{
-    // Allocation for the entry list
-    for (int index {0}; index < in; ++index)
-    {
-        inputList_.push_back(std::make_shared<double>(0));
-    }
-
-    // Creation of the neurons
-    for (const auto& layerSize : layerList)
-    {
-        layerList_.push_back(layerSize);
-        neuronList_.emplace_back();
-        for (int index {0}; index < layerSize; ++index)
-        {
-            neuronList_.back().emplace_back(weightedSum, sigmoid, 0);
-        }
-    }
-
-    // Creation of link between input and output
-    for (int index1 {0}; index1 < layerList_[0]; ++index1)
-    {
-        for (int index2 {0}; index2 < in; ++index2)
-        {
-            neuronList_[0][index1].add(inputList_[index2], 1);
-        }
-    }
-
-    for (int index1 {1}; index1 < nbLayer_; ++index1)
-    {
-        for (int index2 {0}; index2 < layerList_[index1]; ++index2)
-        {
-            for (int index3 {0}; index3 < layerList_[index1-1]; ++index3)
-            {
-                neuronList_[index1][index2].add(neuronList_[index1-1][index3].getOutput(), 1);
-            }
-        }
-    }
-
-    for (int index1 {0}; index1 < layerList_[0]; ++index1)
-    {
-        for (int index2 {0}; index2 < in; ++index2)
-        {
-            neuronList_[0][index1].add(inputList_[index2], 1);
-        }
-    }
-
-    // Allocation for the output list
-    for (int index {0}; index < layerList.back(); ++index)
-    {
-        outputList_.push_back(neuronList_.back().at(index).getOutput());
-    }
-
-    this->run();
-}
-
-template <size_t in, size_t out>
 Perceptron<in, out>::~Perceptron()
 {
 
