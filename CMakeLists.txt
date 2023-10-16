@@ -10,7 +10,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
 
 set(SRCS
     main.cpp
-    perceptron.cpp
     neuron.cpp
     resource.cpp
     )

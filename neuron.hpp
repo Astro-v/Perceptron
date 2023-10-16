@@ -95,6 +95,13 @@ public:
     std::shared_ptr<double> getOutput();
 
     /**
+     * @name getOutputValue
+     * @brief Accessor to get the output value of the neuron
+     * @return Copy of the output value
+    */
+    double getOutputValue() const;
+
+    /**
      * @name getInputNbr
      * @brief Accessor to get the number of input for the neuron
      * @return The number of added input to the neuron

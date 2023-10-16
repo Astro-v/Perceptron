@@ -30,11 +30,9 @@
 int main()
 {
     Perceptron<1ul, 1ul> percep;
-    percep.insertLayer(10);
-    percep.insertLayer(10);
-    percep.insertLayer(10);
+    percep.insertLayer(2);
     std::cout << percep.getOutput(0) << std::endl;
-
+    percep.print();
     return 0;
 }
 

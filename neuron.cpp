@@ -70,6 +70,11 @@ std::shared_ptr<double> Neuron::getOutput()
     return output_;
 }
 
+double Neuron::getOutputValue() const
+{
+    return *output_;
+}
+
 size_t Neuron::getInputNbr() const
 {
     return inputNbr_;

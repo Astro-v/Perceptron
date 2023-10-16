@@ -11,4 +11,4 @@ cmake . -Bbuild
 
 cd build
 
-make build/
+make
