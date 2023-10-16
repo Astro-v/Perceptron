@@ -32,7 +32,7 @@ typedef Perceptron<1ul, 1ul> Percep;
 int main()
 {
     Percep percep;
-    std::cout << 1 << std::endl;
+    std::cout << percep.getOutput(0) << std::endl;
 
     return 0;
 }

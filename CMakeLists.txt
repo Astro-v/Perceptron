@@ -14,11 +14,5 @@ set(SRCS
     neuron.cpp
     resource.cpp
     )
-    
-set(HEADERS    
-    perceptron.hpp
-    neuron.hpp
-    resource.hpp
-    )
 
-add_executable(perceptron ${SRCS} ${HEADERS})
+add_executable(perceptron ${SRCS})
