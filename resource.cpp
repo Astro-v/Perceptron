@@ -38,3 +38,9 @@ double sigmoid(const double& x)
 {
     return 1 / (1 + exp(-x));
 }
+
+double dSigmoid(const double& x)
+{
+    double y = exp(-x);
+    return y / (1 + 2 * y + y * y);
+}
