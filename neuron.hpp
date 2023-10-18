@@ -10,12 +10,6 @@
 #define NEURON_HPP
 
 /**
- * \brief typedef
-*/
-typedef double (&NetInputFct)(std::vector<std::shared_ptr<double>>, const std::vector<double>);
-typedef double (&ActivationFct)(const double&);
-
-/**
  * @class Neuron
  * @brief Single neuron class
 */
@@ -24,9 +18,10 @@ class Neuron
 private:
     NetInputFct netInputFct_;
     ActivationFct activationFct_;
+    ActivationFct derivateActivationFct_;
     std::shared_ptr<double> output_;
     std::vector<std::shared_ptr<double>> input_;
-    std::vector<double> weight_;
+    std::vector<std::shared_ptr<double>> weight_;
     size_t inputNbr_;
 
 public:
@@ -35,10 +30,11 @@ public:
      * @brief Constructor for the Neuron class
      * @param netImputFct Net input function for the neuron
      * @param activationFct Activation fonction for the neuron
+     * @param derivateActivationFct Derivate activation fonction for the neuron
      * @param weight Weight for the bias entry
      * @return No return
     */
-    Neuron(NetInputFct netInputFct, ActivationFct activationFct, const double& weight = 0);
+    Neuron(NetInputFct netInputFct, ActivationFct activationFct, ActivationFct derivateActivationFct, const double& weight = 0);
     
     /**
      * @name ~Neuron
@@ -58,10 +54,10 @@ public:
      * @name add
      * @brief Function that add a new input to the neuron
      * @param input Pointer over the input
-     * @param weight Weight refering to the added input (default -1)
+     * @param weight Weight refering to the added input
      * @return No return
     */
-    void add(std::shared_ptr<double> input, const double& weight = 1);
+    void add(std::shared_ptr<double> input, const double& weight);
     
     /**
      * @name clear
@@ -102,11 +98,33 @@ public:
     double getOutputValue() const;
 
     /**
+     * @name getInputValue
+     * @brief Accessor to get the input of index value of the neuron
+     * @return Copy of the input value
+    */
+    double getInputValue(const int& index) const;
+
+    /**
      * @name getInputNbr
      * @brief Accessor to get the number of input for the neuron
      * @return The number of added input to the neuron
     */
     size_t getInputNbr() const;
+
+    /**
+     * @name getWeight
+     * @brief Accessor to get the weight
+     * @param index Index of the returned weight
+     * @return The number of added input to the neuron
+    */
+    double getWeight(const int& index) const;
+
+    /**
+     * @name getDerivativeOutput
+     * @brief Compute and return the derivate outpur
+     * @return The output given by derivateActivation(netInput(input, weight))
+    */
+    double getDerivativeOutput() const;
 };
 
 

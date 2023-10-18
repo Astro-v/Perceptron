@@ -58,6 +58,17 @@ public:
     void insertLayer(const size_t& nbNeuron = 1,const int& index = -1);
 
     /**
+     * @name setWeight
+     * @brief Set a specific weight  
+     * @param indexLayer Index of the neurons layer
+     * @param indexNeuron Index of the neuron inside the layer
+     * @param indexWeight Index of the weight inside the neuron
+     * @param value New value for the weight
+     * @return No return
+    */
+    void setWeight(const int& indexLayer, const int& indexNeuron, const int& indexWeight, const double& value);
+
+    /**
      * @name setInput
      * @brief Update all output according to the new input list
      * @param input New input list
@@ -79,6 +90,16 @@ public:
      * @return No return
     */
     void print() const;
+    
+    /**
+     * @name print
+     * @brief Display the all the neurons layer
+     * @param input Input list
+     * @param expectedOutput Expected output
+     * @param lambda Learning rate (between 0 and 1)
+     * @return No return
+    */
+    void learn(const std::vector<double>& input, const std::vector<double>& expectedOutput, const double& lambda);
 
 protected:
     /**
@@ -137,6 +158,13 @@ void Perceptron<in, out>::insertLayer(const size_t& nbNeuron, const int& index)
 }
 
 template <size_t in, size_t out>
+void Perceptron<in, out>::setWeight(const int& indexLayer, const int& indexNeuron, const int& indexWeight, const double& value)
+{
+    neuronList_[indexLayer][indexNeuron].setWeight(indexWeight, value);
+}
+
+
+template <size_t in, size_t out>
 void Perceptron<in, out>::setInput(const std::vector<double>& input)
 {
     if (input.size() != in)
@@ -180,6 +208,55 @@ void Perceptron<in, out>::print() const
 }
 
 template <size_t in, size_t out>
+void Perceptron<in, out>::learn(const std::vector<double>& input, const std::vector<double>& expectedOutput, const double& lambda)
+{
+    this->setInput(input);
+
+    // Initialize the error list
+    std::vector<std::vector<double>> error;
+    for (const auto& layer : layerList_)
+    {
+        error.emplace_back();
+        for (int index1 {0}; index1 < layer; ++index1)
+        {
+            error.back().emplace_back(0);
+        }
+    }
+
+    // Compute all error
+    for (size_t index1 {0ul}; index1 < layerList_.back(); ++index1)
+    {
+        error.back()[index1] = neuronList_.back()[index1].getDerivativeOutput() * (neuronList_.back()[index1].getOutputValue() - expectedOutput[index1]);
+    }
+
+    for (int index1 {nbLayer_ - 2}; index1 >= 0; --index1)
+    {
+        for (int index2 {0}; index2 < layerList_[index1]; ++index2)
+        {
+            double sum = 0;
+            for (int index3 {0}; index3 < layerList_[index1 + 1]; ++index3)
+            {
+                sum += neuronList_[index1 + 1][index3].getWeight(index2) * error[index1 + 1][index3];
+            }
+            error[index1][index2] = neuronList_[index1][index2].getDerivativeOutput() * sum;   
+        }
+    }
+
+    // Update all weight
+    for (int index1 {0}; index1 < nbLayer_; ++index1)
+    {
+        for (int index2 {0}; index2 < layerList_[index1]; ++index2)
+        {
+            for (int index3 {0}; index3 < neuronList_[index1][index2].getInputNbr(); ++index3)
+            {
+                neuronList_[index1][index2].setWeight(index3, neuronList_[index1][index2].getWeight(index3) - 
+                lambda * error[index1][index2] * neuronList_[index1][index2].getInputValue(index3));
+            }
+        }
+    }
+}
+
+template <size_t in, size_t out>
 void Perceptron<in, out>::run()
 {
     // Update all neurons output
@@ -208,7 +285,7 @@ void Perceptron<in, out>::initialize()
     // Creation of the neurons
     for (int index {0}; index < out; ++index)
     {
-        neuronList_.back().emplace_back(weightedSum, sigmoid, 1);
+        neuronList_.back().emplace_back(weightedSum, sigmoid, dSigmoid, 1);
     }
 
     // Set the link between entry
@@ -256,7 +333,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
     // Create each neurons in the layer
     for (int index1 {0}; index1 < nbNeuron; ++index1)
     {
-        itNeuronList->emplace_back(weightedSum, sigmoid, 1);
+        itNeuronList->emplace_back(weightedSum, sigmoid, dSigmoid, 1);
     }
 
     // Set the link between entry
@@ -277,7 +354,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
         {   
             for (int index2 {0}; index2 < *std::prev(itLayerList, 1); ++index2)
             {
-                itNeuronList->at(index1).add(itNeuronList->at(index2).getOutput());
+                itNeuronList->at(index1).add(itNeuronList->at(index2).getOutput(), 0);
             }
         }
     }
@@ -288,7 +365,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
         std::next(itNeuronList, 1)->at(index1).clear();
         for (int index2 {0}; index2 < *itLayerList; ++index2)
         {
-            std::next(itNeuronList, 1)->at(index1).add(itNeuronList->at(index2).getOutput());
+            std::next(itNeuronList, 1)->at(index1).add(itNeuronList->at(index2).getOutput(), 0);
         }
     }
 }

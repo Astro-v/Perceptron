@@ -16,16 +16,18 @@
 /**
  * @include Internal header
 */
+#include "resource.hpp"
 #include "neuron.hpp"
 
-Neuron::Neuron(NetInputFct netInputFct, ActivationFct activationFct, const double& weight):
+Neuron::Neuron(NetInputFct netInputFct, ActivationFct activationFct, ActivationFct derivateActivationFct, const double& weight):
 netInputFct_(netInputFct),
-activationFct_(activationFct)
+activationFct_(activationFct),
+derivateActivationFct_(derivateActivationFct)
 {
     output_ = std::make_shared<double>();
 
     // Bias weight
-    weight_.push_back(weight);
+    weight_.push_back(std::make_shared<double>(weight));
 
     inputNbr_ = 0;
 }
@@ -40,10 +42,10 @@ void Neuron::run()
     *output_ = activationFct_(netInputFct_(input_, weight_)); 
 }
 
-void Neuron::add(std::shared_ptr<double> input, const double& weight)
+void Neuron::add(std::shared_ptr<double> input,  const double& weight)
 {
     input_.push_back(input);
-    weight_.insert(weight_.begin(), weight);
+    weight_.insert(std::prev(weight_.end(), 1), std::make_shared<double>(weight));
     ++inputNbr_;
 }
 
@@ -56,13 +58,13 @@ void Neuron::clear()
 
 void Neuron::setWeight(const size_t& index, const double& weight)
 {
-    if (index >= 0 && index < inputNbr_)
-        weight_.at(index) = weight;
+    if (index >= 0 && index <= inputNbr_)
+        *(weight_.at(index)) = weight;
 }
 
 void Neuron::setBias(const double& weight)
 {
-    *(--weight_.end()) = weight;
+    *weight_.back() = weight;
 }
 
 std::shared_ptr<double> Neuron::getOutput()
@@ -75,7 +77,27 @@ double Neuron::getOutputValue() const
     return *output_;
 }
 
+
+double Neuron::getInputValue(const int& index) const
+{
+    if (index < 0 && index >= inputNbr_)
+        throw;  
+    return *input_[index];
+}
+
 size_t Neuron::getInputNbr() const
 {
     return inputNbr_;
+}
+
+double Neuron::getWeight(const int& index) const
+{
+    if (index < 0 && index >= inputNbr_ + 1)
+        throw;
+    return *weight_.at(index);
+}
+
+double Neuron::getDerivativeOutput() const
+{
+    return derivateActivationFct_(netInputFct_(input_, weight_)); 
 }

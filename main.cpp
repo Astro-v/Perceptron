@@ -29,9 +29,27 @@
 */
 int main()
 {
-    Perceptron<1ul, 1ul> percep;
+    Perceptron<2ul, 2ul> percep;
     percep.insertLayer(2);
-    std::cout << percep.getOutput(0) << std::endl;
+    percep.setWeight(0, 0, 0, 0.3);
+    percep.setWeight(0, 0, 1, -0.4);
+    percep.setWeight(0, 0, 2, 0.25);
+    percep.setWeight(0, 1, 0, 0.2);
+    percep.setWeight(0, 1, 1, 0.6);
+    percep.setWeight(0, 1, 2, 0.45);
+    percep.setWeight(1, 0, 0, 0.7);
+    percep.setWeight(1, 0, 1, 0.5);
+    percep.setWeight(1, 0, 2, 0.15);
+    percep.setWeight(1, 1, 0, -0.3);
+    percep.setWeight(1, 1, 1, -0.1);
+    percep.setWeight(1, 1, 2, 0.35);
+
+    std::vector<double> input;
+    input.push_back(2);
+    input.push_back(3);
+
+    percep.setInput(input);
+    std::cout << percep.getOutput(0) << " " << percep.getOutput(1) << std::endl;
     percep.print();
     return 0;
 }

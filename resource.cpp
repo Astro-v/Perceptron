@@ -18,18 +18,18 @@
 */
 #include "resource.hpp"
 
-double weightedSum(std::vector<std::shared_ptr<double>> input, const std::vector<double> weight)
+double weightedSum(std::vector<std::shared_ptr<double>> input, std::vector<std::shared_ptr<double>> weight)
 {   
     double result = 0;
     auto itInput = input.begin();
     auto itWeight = weight.begin();
     while (itInput != input.end())
     {
-        result += *(*itInput) * (*itWeight);
+        result += **itInput * **itWeight;
         ++itInput;
         ++itWeight;
     }
-    result -= *itWeight;
+    result += **itWeight;
     return result;
 }
 

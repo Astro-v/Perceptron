@@ -9,15 +9,8 @@
 #ifndef RESOURCE_HPP
 #define RESOURCE_HPP
 
-typedef double (&NetInputFct)(std::vector<std::shared_ptr<double>>, const std::vector<double>);
-typedef double (&Fct)(const double&);
-
-struct ActivationFct
-{
-    Fct function;
-    Fct derivate;
-};
-
+typedef double (&NetInputFct)(std::vector<std::shared_ptr<double>>, std::vector<std::shared_ptr<double>>);
+typedef double (&ActivationFct)(const double&);
 
 /**
  * @name weightedSum
@@ -26,7 +19,7 @@ struct ActivationFct
  * @param weight Weight list - The last element is the bias weight associate with the -1 entry
  * @return Return the weighted sum
 */
-double weightedSum(std::vector<std::shared_ptr<double>> input, const std::vector<double> weight);
+double weightedSum(std::vector<std::shared_ptr<double>> input, std::vector<std::shared_ptr<double>> weight);
 
 /**
  * @name sigmoid
