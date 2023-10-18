@@ -12,6 +12,8 @@
 #include <memory>
 #include <vector>
 #include <cmath>
+#include <ctime>
+#include <cstdlib>
 
 /**
  * @include Internal header
@@ -43,4 +45,14 @@ double dSigmoid(const double& x)
 {
     double y = exp(-x);
     return y / (1 + 2 * y + y * y);
+}
+
+void initRandom()
+{
+    std::srand(std::time(nullptr)); 
+}
+
+double getRandomNbr(const double& min, const double& max)
+{
+    return (static_cast<double>(std::rand()) / RAND_MAX) * (max - min) + min;
 }

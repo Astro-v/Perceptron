@@ -37,4 +37,20 @@ double sigmoid(const double& x);
 */
 double dSigmoid(const double& x);
 
+/**
+ * @name initRandom
+ * @brief Init the random package
+ * @return No return
+*/
+void initRandom();
+
+/**
+ * @name getRandomNbr
+ * @brief Return a random number between min and max
+ * @param min Minimal value for the random number
+ * @param max Maximal value for the random number
+ * @return Return a random number between min and max
+*/
+double getRandomNbr(const double& min = 0, const double& max = 1);
+
 #endif // RESOURCE_HPP

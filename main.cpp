@@ -22,6 +22,10 @@
 #include "neuron.hpp"
 #include "perceptron.hpp"
 
+
+
+double rate(Perceptron<2ul, 1ul>& percep, int n);
+
 /**
  * @name main
  * @brief Main function of the program
@@ -29,28 +33,69 @@
 */
 int main()
 {
-    Perceptron<2ul, 2ul> percep;
+    Perceptron<2ul, 1ul> percep;
     percep.insertLayer(2);
-    percep.setWeight(0, 0, 0, 0.3);
-    percep.setWeight(0, 0, 1, -0.4);
-    percep.setWeight(0, 0, 2, 0.25);
-    percep.setWeight(0, 1, 0, 0.2);
-    percep.setWeight(0, 1, 1, 0.6);
-    percep.setWeight(0, 1, 2, 0.45);
-    percep.setWeight(1, 0, 0, 0.7);
-    percep.setWeight(1, 0, 1, 0.5);
-    percep.setWeight(1, 0, 2, 0.15);
-    percep.setWeight(1, 1, 0, -0.3);
-    percep.setWeight(1, 1, 1, -0.1);
-    percep.setWeight(1, 1, 2, 0.35);
+    percep.insertLayer(4);
+    percep.insertLayer(2);
+
+    std::cout << "AVANT : " << rate(percep, 100) << std::endl;
 
     std::vector<double> input;
-    input.push_back(2);
-    input.push_back(3);
+    input.push_back(0);
+    input.push_back(0);
 
-    percep.setInput(input);
-    std::cout << percep.getOutput(0) << " " << percep.getOutput(1) << std::endl;
-    percep.print();
+    std::vector<double> output;
+    output.push_back(0);
+
+    for (int i = 0; i< 10000 ; ++i)
+    {
+        input[0] = getRandomNbr();
+        input[1] = getRandomNbr();
+        double x = input[0] - 0.5;
+        double y = input[1] - 0.5;
+        if (x * x + y * y < 0.25)
+        {
+            output[0] = 1;
+        }
+        else
+        {
+            output[0] = 0;
+        }
+        percep.learn(input, output, 0.5);
+    }
+
+    
+    std::cout << "APRES : " << rate(percep, 100) << std::endl;
     return 0;
 }
 
+
+double rate(Perceptron<2ul, 1ul>& percep, int n)
+{
+    double rating = 0;
+    std::vector<double> input;
+    input.push_back(0);
+    input.push_back(0);
+
+    double output = 0;
+
+    for (int i = 0; i< n ; ++i)
+    {
+        input[0] = getRandomNbr();
+        input[1] = getRandomNbr();
+        double x = input[0] - 0.5;
+        double y = input[1] - 0.5;        
+        if (x * x + y * y < 0.25)
+        {
+            output = 1;
+        }
+        else
+        {
+            output = 0;
+        }
+        percep.setInput(input);
+        double res = output - percep.getOutput(0);
+        rating += res>=0?res:-res;
+    }
+    return  100.0 * (n - rating) / n;
+}

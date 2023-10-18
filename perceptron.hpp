@@ -25,6 +25,9 @@ private:
     std::vector<std::shared_ptr<double>> outputList_;   
     std::vector<Layer> neuronList_;
 
+    double minRdm_ = -2;
+    double maxRdm_ =  2;
+
 public:
     /**
      * @name Perceptron
@@ -129,6 +132,8 @@ protected:
 template <size_t in, size_t out>
 Perceptron<in, out>::Perceptron()
 {
+    initRandom();
+
     this->initialize();
     this->run();
 }
@@ -136,6 +141,9 @@ Perceptron<in, out>::Perceptron()
 template <size_t in, size_t out>
 Perceptron<in, out>::Perceptron(const std::vector<size_t>& layerList)
 {
+    
+    initRandom();
+    
     this->initialize();
     for (const auto& nbNeuron : layerList)
     {
@@ -198,11 +206,15 @@ double Perceptron<in, out>::getOutput(const int& index)
 template <size_t in, size_t out>
 void Perceptron<in, out>::print() const
 {
-    for (int index1 {0}; index1 < nbLayer_ + 1; ++index1)
+    for (int index1 {0}; index1 < nbLayer_; ++index1)
     {
         for (int index2 {0}; index2 < layerList_[index1]; ++index2)
         {
-            std::cout << index1 << " - " << index2 << " : " << neuronList_[index1][index2].getOutputValue() << std::endl;
+            std::cout << index1 << " - " << index2 << "(" << neuronList_[index1][index2].getInputNbr() << ") : " << neuronList_[index1][index2].getOutputValue() << std::endl;
+            for (int index3 {0}; index3 < neuronList_[index1][index2].getInputNbr() + 1; ++index3)
+            {
+                std::cout << "W" << std::to_string(index3) << " : " << neuronList_[index1][index2].getWeight(index3) << std::endl;
+            }
         }
     }
 }
@@ -254,6 +266,8 @@ void Perceptron<in, out>::learn(const std::vector<double>& input, const std::vec
             }
         }
     }
+
+    this->run();
 }
 
 template <size_t in, size_t out>
@@ -285,7 +299,7 @@ void Perceptron<in, out>::initialize()
     // Creation of the neurons
     for (int index {0}; index < out; ++index)
     {
-        neuronList_.back().emplace_back(weightedSum, sigmoid, dSigmoid, 1);
+        neuronList_.back().emplace_back(weightedSum, sigmoid, dSigmoid, getRandomNbr(minRdm_, maxRdm_));
     }
 
     // Set the link between entry
@@ -293,7 +307,7 @@ void Perceptron<in, out>::initialize()
     {   
         for (int index2 {0}; index2 < in; ++index2)
         {
-            neuronList_[0][index1].add(inputList_[index2], 1);
+            neuronList_[0][index1].add(inputList_[index2], getRandomNbr(minRdm_, maxRdm_));
         }
     }
 
@@ -333,7 +347,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
     // Create each neurons in the layer
     for (int index1 {0}; index1 < nbNeuron; ++index1)
     {
-        itNeuronList->emplace_back(weightedSum, sigmoid, dSigmoid, 1);
+        itNeuronList->emplace_back(weightedSum, sigmoid, dSigmoid, getRandomNbr(minRdm_, maxRdm_));
     }
 
     // Set the link between entry
@@ -344,7 +358,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
         {   
             for (int index2 {0}; index2 < in; ++index2)
             {
-                itNeuronList->at(index1).add(inputList_[index2], 1);
+                itNeuronList->at(index1).add(inputList_[index2], getRandomNbr(minRdm_, maxRdm_));
             }
         }
     }
@@ -354,7 +368,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
         {   
             for (int index2 {0}; index2 < *std::prev(itLayerList, 1); ++index2)
             {
-                itNeuronList->at(index1).add(itNeuronList->at(index2).getOutput(), 0);
+                itNeuronList->at(index1).add(itNeuronList->at(index2).getOutput(), getRandomNbr(minRdm_, maxRdm_));
             }
         }
     }
@@ -365,7 +379,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
         std::next(itNeuronList, 1)->at(index1).clear();
         for (int index2 {0}; index2 < *itLayerList; ++index2)
         {
-            std::next(itNeuronList, 1)->at(index1).add(itNeuronList->at(index2).getOutput(), 0);
+            std::next(itNeuronList, 1)->at(index1).add(itNeuronList->at(index2).getOutput(), getRandomNbr(minRdm_, maxRdm_));
         }
     }
 }
