@@ -14,6 +14,8 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
+#include <iostream>
+#include <string_view>
 
 /**
  * @include Internal header

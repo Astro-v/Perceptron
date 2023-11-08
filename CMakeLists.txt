@@ -12,6 +12,8 @@ set(SRCS
     main.cpp
     neuron.cpp
     resource.cpp
+    example1.cpp
+    example2.cpp
     )
 
 add_executable(perceptron ${SRCS})

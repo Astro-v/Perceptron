@@ -349,7 +349,7 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
     {
         itNeuronList->emplace_back(weightedSum, sigmoid, dSigmoid, getRandomNbr(minRdm_, maxRdm_));
     }
-
+    
     // Set the link between entry
     if (itLayerList == layerList_.begin())
     {
@@ -368,11 +368,11 @@ void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
         {   
             for (int index2 {0}; index2 < *std::prev(itLayerList, 1); ++index2)
             {
-                itNeuronList->at(index1).add(itNeuronList->at(index2).getOutput(), getRandomNbr(minRdm_, maxRdm_));
+                itNeuronList->at(index1).add(prev(itNeuronList, 1)->at(index2).getOutput(), getRandomNbr(minRdm_, maxRdm_));
             }
         }
     }
-
+    
     // Set the link with the outputs
     for (int index1 {0}; index1 < *std::next(itLayerList, 1); ++index1)
     {   
