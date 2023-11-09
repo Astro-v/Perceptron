@@ -9,11 +9,11 @@
 /**
  * @include External header
 */
+#include <iostream>
 
 /**
  * @include Internal header
 */
-#include "example1.hpp"
 
 
 /**
@@ -23,6 +23,6 @@
 */
 int main()
 {
-    example1();
+    std::cout << "Hello World!" << std::endl;
     return 0;
 }

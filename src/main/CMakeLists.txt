@@ -1,7 +1,2 @@
-cmake_minimum_required(VERSION 3.10)
-
-project(MyProject)
-
-set(CMAKE_CXX_STANDARD 11)
-
-add_executable(MyExecutable main.cpp resource.cpp resource.hpp)
+add_library(main main.cpp resource.cpp resource.hpp) 
+target_include_directories(main PUBLIC .)
