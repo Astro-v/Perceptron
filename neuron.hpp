@@ -9,121 +9,162 @@
 #ifndef NEURON_HPP
 #define NEURON_HPP
 
+#include <vector>
+#include <memory>
+#include <functional>
+
 /**
- * @class Neuron
- * @brief Single neuron class
-*/
+ * @brief The Neuron class represents a single neuron in a neural network.
+ * 
+ * It contains the necessary functions and variables to calculate the output of the neuron
+ * based on its inputs and weights.
+ */
 class Neuron
 {
 private:
+    /**
+     * @brief Function pointer type for calculating the net input of a neuron.
+     * 
+     * @param inputs Array of input values.
+     * @param weights Array of weights for each input.
+     * @param numInputs Number of inputs.
+     * @return double The net input value.
+     */
     NetInputFct netInputFct_;
+
+    /**
+     * @brief Function pointer type for calculating the activation of a neuron.
+     * 
+     * @param netInput The net input value of the neuron.
+     * @return double The activation value.
+     */
     ActivationFct activationFct_;
+    
+    /**
+     * @brief Function pointer type for calculating the derivative of the activation of a neuron.
+     * 
+     * @param netInput The net input value of the neuron.
+     * @return double The derivative of the activation value.
+     */
     ActivationFct derivateActivationFct_;
+   
+    /**
+     * @brief A shared pointer to a double that stores the output of the neuron.
+     */
     std::shared_ptr<double> output_;
+    
+    /**
+     * @brief A vector of shared pointers to double values representing the input of the neuron.
+     */
     std::vector<std::shared_ptr<double>> input_;
+
+    /**
+     * @brief A vector of shared pointers to double values representing the weights of a neuron, including the bias.
+     */
     std::vector<std::shared_ptr<double>> weight_;
+
+
+    /**
+     * @brief Number of inputs of the neuron.
+     * 
+     */
     size_t inputNbr_;
 
 public:
+
     /**
-     * @name Neuron
-     * @brief Constructor for the Neuron class
-     * @param netImputFct Net input function for the neuron
-     * @param activationFct Activation fonction for the neuron
-     * @param derivateActivationFct Derivate activation fonction for the neuron
-     * @param weight Weight for the bias entry
-     * @return No return
-    */
+     * @brief Neuron constructor.
+     * 
+     * @param netInputFct Function used to calculate the net input of the neuron.
+     * @param activationFct Activation function used to calculate the output of the neuron.
+     * @param derivateActivationFct Derivative of the activation function used to calculate the gradient of the neuron.
+     * @param weight Initial weight of the neuron (default: 0).
+     */
     Neuron(NetInputFct netInputFct, ActivationFct activationFct, ActivationFct derivateActivationFct, const double& weight = 0);
     
     /**
-     * @name ~Neuron
-     * @brief Destructor for the Neuron class
-     * @return No return
-    */
+     * @brief Destructor for the Neuron class.
+     * 
+     */
     ~Neuron();
 
     /**
-     * @name run
-     * @brief Function that update the output value according to the inputs
-     * @return No return
-    */
+     * @brief Runs the neuron's activation function and updates its output value.
+     * 
+     */
     void run();
 
     /**
-     * @name add
-     * @brief Function that add a new input to the neuron
-     * @param input Pointer over the input
-     * @param weight Weight refering to the added input
-     * @return No return
-    */
+     * @brief Adds an input and its corresponding weight to the neuron.
+     * 
+     * @param input A shared pointer to the input value.
+     * @param weight The weight of the input.
+     */
     void add(std::shared_ptr<double> input, const double& weight);
     
     /**
-     * @name clear
-     * @brief Function that clear all added input
-     * @return No return
-    */
+     * @brief Clears the state of the neuron.
+     * 
+     */
     void clear();
 
     /**
-     * @name setWeight
-     * @brief Accessor to set the weight
-     * @param index Index of the relied input
-     * @param weight Weight value
-     * @return No return
-    */
+     * @brief Sets the weight of a specific input.
+     * 
+     * @param index The index of the input weight to be set.
+     * @param weight The new weight value.
+     */
     void setWeight(const size_t& index, const double& weight);
 
     /**
-     * @name setBias
-     * @brief Accessor to set the bias weight
-     * @param weight Weight value
-     * @return No return
-    */
+     * @brief Sets the bias weight of the neuron.
+     * 
+     * @param weight The new bias weight.
+     */
     void setBias(const double& weight);
 
     /**
-     * @name getOutput
-     * @brief Accessor to get the output of the neuron
-     * @return Pointer over the output value
-    */
+     * @brief Returns a shared pointer to the output value of the neuron.
+     * 
+     * @return A shared pointer to the output value of the neuron.
+     */
     std::shared_ptr<double> getOutput();
 
     /**
-     * @name getOutputValue
-     * @brief Accessor to get the output value of the neuron
-     * @return Copy of the output value
-    */
+     * @brief Returns the output value of the neuron.
+     *
+     * @return The output value of the neuron.
+     */
     double getOutputValue() const;
 
     /**
-     * @name getInputValue
-     * @brief Accessor to get the input of index value of the neuron
-     * @return Copy of the input value
-    */
+     * @brief Returns the value of the input at the given index.
+     * 
+     * @param index The index of the input to retrieve.
+     * @return The value of the input at the given index.
+     */
     double getInputValue(const int& index) const;
 
     /**
-     * @name getInputNbr
-     * @brief Accessor to get the number of input for the neuron
-     * @return The number of added input to the neuron
-    */
+     * @brief Returns the number of inputs of the neuron.
+     * 
+     * @return size_t The number of inputs of the neuron.
+     */
     size_t getInputNbr() const;
 
     /**
-     * @name getWeight
-     * @brief Accessor to get the weight
-     * @param index Index of the returned weight
-     * @return The number of added input to the neuron
-    */
+     * @brief Returns the weight at the specified index.
+     * 
+     * @param index The index of the weight to retrieve.
+     * @return The weight at the specified index.
+     */
     double getWeight(const int& index) const;
 
     /**
-     * @name getDerivativeOutput
-     * @brief Compute and return the derivate outpur
-     * @return The output given by derivateActivation(netInput(input, weight))
-    */
+     * @brief Calculates the derivative of the output of the neuron.
+     * 
+     * @return The derivative of the output of the neuron.
+     */
     double getDerivativeOutput() const;
 };
 

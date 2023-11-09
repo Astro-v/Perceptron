@@ -1,6 +1,6 @@
 /**
  * @file example1.cpp
- * @brief Example file
+ * @brief Example file demonstrating the usage of Perceptron class with 2 input and 2 output neurons.
  * @author Valentin MICHEL
  * @date 09/10/2023
  * @note For naming rules follow https://manual.gromacs.org/5.1.1/dev-manual/naming.html
