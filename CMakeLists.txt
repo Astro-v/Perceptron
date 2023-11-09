@@ -1,19 +1,20 @@
-project(Perceptron)
+# FILEPATH: /home/antares/Perceptron/CMakeLists.txt
+
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_BUILD_TYPE debug)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++23")
+project(Perceptron)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
+# Add executable
+add_executable(perceptron main.cpp)
 
-set(SRCS
-    main.cpp
-    neuron.cpp
-    resource.cpp
-    example1.cpp
-    example2.cpp
-    )
+# Add tests
+enable_testing()
+add_executable(tests tests.cpp)
+add_test(NAME tests COMMAND tests)
 
-add_executable(perceptron ${SRCS})
+# Link libraries
+target_link_libraries(tests PRIVATE Catch2::Catch2)
+target_link_libraries(perceptron PRIVATE PerceptronLib)
+
+# Add subdirectory
+add_subdirectory(PerceptronLib)
