@@ -3,6 +3,7 @@
 
 # Files in the build repository
 build/*
+build_debug/*
 
 # Files in the bin repository
 bin/*
