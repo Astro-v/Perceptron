@@ -24,7 +24,7 @@
 #include "example2.hpp"
 
 
-void example2()
+int main()
 {
     Perceptron<2ul, 1ul> percep;
     percep.insertLayer(2);
@@ -62,6 +62,8 @@ void example2()
     }
 
     std::cout << "APRES : " << rate(percep, 100) << std::endl;
+
+    return 0;
 }
 
 

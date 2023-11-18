@@ -2,8 +2,7 @@
 .vscode/*
 
 # Files in the build repository
-build/*
-build_debug/*
+build*/*
 
 # Files in the bin repository
 bin/*

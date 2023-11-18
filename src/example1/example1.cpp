@@ -23,7 +23,7 @@
 #include "perceptron.hpp"
 #include "example1.hpp"
 
-void example1()
+int main()
 {
     Perceptron<2ul, 2ul> percep;
 
@@ -47,4 +47,6 @@ void example1()
 
     percep.setInput(input);
     percep.print();
+
+    return 0;
 }
