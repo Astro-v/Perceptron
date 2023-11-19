@@ -28,14 +28,14 @@ Perceptron<in, out>::~Perceptron()
 }
 
 template <size_t in, size_t out>
-void Perceptron<in, out>::insertLayer(const size_t& nbNeuron, const int& index)
+void Perceptron<in, out>::insertLayer(const size_t& nbNeuron, const size_t& index)
 {
     this->addLayer(nbNeuron, index);
     this->run();
 }
 
 template <size_t in, size_t out>
-void Perceptron<in, out>::setWeight(const int& indexLayer, const int& indexNeuron, const int& indexWeight, const double& value)
+void Perceptron<in, out>::setWeight(const size_t& indexLayer, const size_t& indexNeuron, const size_t& indexWeight, const double& value)
 {
     neuronList_[indexLayer][indexNeuron].setWeight(indexWeight, value);
 }
@@ -60,9 +60,9 @@ void Perceptron<in, out>::setInput(const std::vector<double>& input)
 }
 
 template <size_t in, size_t out>
-double Perceptron<in, out>::getOutput(const int& index)
+double Perceptron<in, out>::getOutput(const size_t& index)
 {
-    if (index < 0 || index >= out)
+    if (index >= out)
     {
         std::cout << "ERROR : Index out of range" << std::endl;
         throw;
@@ -110,16 +110,16 @@ void Perceptron<in, out>::learn(const std::vector<double>& input, const std::vec
         error.back()[index1] = neuronList_.back()[index1].getDerivativeOutput() * (neuronList_.back()[index1].getOutputValue() - expectedOutput[index1]);
     }
 
-    for (size_t index1 {nbLayer_ - 2}; index1 >= 0; --index1)
+    for (size_t index1 {nbLayer_ - 1}; index1 > 0; --index1)
     {
         for (size_t index2 {0}; index2 < layerList_[index1]; ++index2)
         {
             double sum = 0;
-            for (size_t index3 {0}; index3 < layerList_[index1 + 1]; ++index3)
+            for (size_t index3 {0}; index3 < layerList_[index1]; ++index3)
             {
-                sum += neuronList_[index1 + 1][index3].getWeight(index2) * error[index1 + 1][index3];
+                sum += neuronList_[index1][index3].getWeight(index2) * error[index1][index3];
             }
-            error[index1][index2] = neuronList_[index1][index2].getDerivativeOutput() * sum;   
+            error[index1-1][index2] = neuronList_[index1-1][index2].getDerivativeOutput() * sum;   
         }
     }
 
@@ -189,10 +189,10 @@ void Perceptron<in, out>::initialize()
 
 
 template <size_t in, size_t out>
-void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const int& index)
+void Perceptron<in, out>::addLayer(const size_t& nbNeuron,const size_t& index)
 {
-    int localIndex {0};
-    if (index >= 0 && index < nbLayer_)
+    size_t localIndex {0};
+    if (index < nbLayer_)
     {
         localIndex = index;
     }

@@ -1,2 +1,2 @@
 add_executable(example2 example2.cpp)
-target_link_libraries(example2 PRIVATE perceptron)
+target_link_libraries(example2 PRIVATE perceptron warning_props)

@@ -92,7 +92,7 @@ public:
      * @param nbNeuron The number of neurons in the new layer.
      * @param index The index at which to insert the new layer. If set to -1, the new layer is appended to the end.
      */
-    void insertLayer(const size_t& nbNeuron = 1,const int& index = -1);
+    void insertLayer(const size_t& nbNeuron = 1,const size_t& index = -1);
 
     /**
      * @brief Sets the weight of a neuron in a specific layer.
@@ -102,7 +102,7 @@ public:
      * @param indexWeight The index of the weight being set.
      * @param value The value to set the weight to.
      */
-    void setWeight(const int& indexLayer, const int& indexNeuron, const int& indexWeight, const double& value);
+    void setWeight(const size_t& indexLayer, const size_t& indexNeuron, const size_t& indexWeight, const double& value);
 
     /**
      * @brief Sets the input vector for the perceptron.
@@ -117,7 +117,7 @@ public:
      * @param index The index of the output value to retrieve.
      * @return Double The output value at the given index.
      */
-    double getOutput(const int& index);
+    double getOutput(const size_t& index);
 
     /**
      * @brief Prints the weights and bias of the perceptron.
@@ -154,7 +154,7 @@ protected:
      * @param nbNeuron Number of neurons to add to the layer.
      * @param index Index at which to add the layer. If negative, the layer is added at the end.
      */
-    void addLayer(const size_t& nbNeuron = 1,const int& index = -1);
+    void addLayer(const size_t& nbNeuron = 1,const size_t& index = -1);
 };
 
 #include "perceptron.ipp"
